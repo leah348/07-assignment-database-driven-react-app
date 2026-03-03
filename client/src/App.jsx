@@ -8,7 +8,7 @@ import AddRecipePage from "./pages/AddRecipePage";
 export default function App() {
   return (
     <div className=" max-w-full mx-auto  ">
-      <div className="max-w-full  mb-5 bg-gray-400">
+      <div className="max-w-full  mb-5 bg-mist-400 ">
         <Header />
       </div>
       <Routes>

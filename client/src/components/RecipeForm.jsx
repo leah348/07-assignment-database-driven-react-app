@@ -134,7 +134,7 @@ export default function RecipeForm() {
 
         <button
           type="submit"
-          className="bg-blue-500 text-black  border-4 w-[200px]p-4 rounded hover:bg-blue-600 transition"
+          className="bg-blue-700 text-black  border-4 w-[200px]p-4 rounded hover:bg-blue-600 transition"
         >
           Submit new Recipe
         </button>
