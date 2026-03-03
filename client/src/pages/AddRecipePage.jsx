@@ -1,6 +1,7 @@
 import { useState } from "react";
+import RecipeForm from "../components/RecipeForm";
 
-export default function RecipeForm() {
+export default function AddRecipePage() {
   const [dish, setDish] = useState("");
   const [type, setType] = useState("");
   const [difficulty_level, setDifficultyLevel] = useState("");
@@ -40,39 +41,15 @@ export default function RecipeForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Dish name"
-        value={dish}
-        onChange={(e) => setDish(e.target.value)}
-        required
-      />
+    <div>
+      <h2 className="text-2xl p-2"> This page is about adding a new recipe</h2>
+      <p>
+        {" "}
+        This is the page about adding a new animal to our database: you can
+        select from the available Comment if you want
+      </p>
 
-      <input
-        type="text"
-        placeholder="Type"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        required
-      />
-
-      <input
-        type="text"
-        placeholder="Difficulty"
-        value={difficulty_level}
-        onChange={(e) => setDifficultyLevel(e.target.value)}
-        required
-      />
-
-      <input
-        type="text"
-        placeholder="Image URL"
-        value={image_url}
-        onChange={(e) => setImageUrl(e.target.value)}
-      />
-
-      <button type="submit">Add Recipe</button>
-    </form>
+      <RecipeForm />
+    </div>
   );
 }

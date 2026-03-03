@@ -67,6 +67,24 @@ app.delete("/recipes/:id", async (req, res) => {
   }
 });
 
+// get commnet
+app.get(`/comments`, async (req, res) => {
+  const comments = (await db.query(`SELECT * FROM comments`)).rows;
+  res.status(200).json(comments);
+});
+
+app.post(`/recipes/:id/comments/:commentId`, async (req, res) => {
+  //for inserteting into our recipes comments table
+  const result = (
+    await db.query(
+      `INSERT INTO recipes_comments(recipe_id, comment_id) VALUES( $1, $2)`,
+      [req, params.commentId],
+    )
+  ).rows;
+
+  res.status(201).json(result);
+});
+
 app.listen(8080, () => {
   console.log("Server runnung on http://localhost:8080");
 });

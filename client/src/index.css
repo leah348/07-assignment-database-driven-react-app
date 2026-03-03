@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -13,23 +13,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
+/* headder {
+  padding: 100px;
+  text-align: center;
+} */
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #06303a;
   text-decoration: inherit;
+  text-align: center;
 }
 a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  color: #b5180a;
 }
 
 h1 {
@@ -68,3 +65,36 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* pushes footer down */
+}
+
+footer {
+  /* background: #807f7f; */
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* html body {
+  height: 100vh;
+  margin: 0;
+}
+footer p {
+  background-color: #213547;
+  color: white;
+  text-align: justify;
+} */

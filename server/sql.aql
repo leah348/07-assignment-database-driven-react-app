@@ -1,0 +1,42 @@
+
+
+
+
+app.get("/animals/:id", async (req, res) => {
+  --if the objecet have more then one property(so there was a query string)
+  ------IF THERE IS A QUERY STRING------
+  if(Object.key(req, query).length >0) {
+const animal = await db.query(
+  `
+  select animals.*, array_agg(
+    json_build_object(
+        'id', habitats.id,
+        'type', habitats.type,
+        'description', habitats.description,
+        'complexity', habitats.complexity
+    )
+
+
+    ) as habitats
+                from animals
+                left join animals_habitats 
+                on animals.id = animals_habitats.animal_id
+                inner join habitats
+                on animals_habitats.habitat_id = habitats.id
+                where animals.id = $1
+                group by animals.id
+  `,
+  [req, param.id]
+)
+res.status(200).json(animal.row)
+  }
+  ---how do i read value of id?
+  ----santatise our queries through the dollersign so one staeal our data
+
+  ---not a query string
+  sonst(animal =(
+   await db.query(`SELECT * FROM animals where id= $1`, [req.param.id]).row
+  still need to add
+   )
+  )
+})

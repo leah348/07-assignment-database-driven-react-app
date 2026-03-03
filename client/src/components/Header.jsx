@@ -2,14 +2,19 @@ import { Link } from "react-router";
 
 export default function Header() {
   return (
-    <div>
-      <h2 className="text-2xl font-mono text-amber-300">Recipe App</h2>
+    <div className="text-center">
+      <h2 className="text-2xl font-mono text-white ">Recipes App</h2>
 
-      <nav>
+      <nav className="flex flex-row   gap-16 ">
         <Link to="/"> Home</Link>
         <Link to="/recipes">Recipes</Link>
-        <Link to="/add">Add Recipe</Link>
+        <Link to="/add">Add a new Recipe</Link>
+        <Link to="/recipes">Explore All Recipes</Link>
+        <Link to="/recipes/1">Learn More</Link>
       </nav>
     </div>
   );
 }
+
+//<div className="w-full mx-32 mt-5">
+// <h2 className="text-2xl font-mono text-red-300 mt-5">Recipes App</h2>
