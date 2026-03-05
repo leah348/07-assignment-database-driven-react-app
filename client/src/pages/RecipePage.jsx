@@ -8,7 +8,9 @@ export default function RecipePage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`http://localhost:8080/recipes/${id}`);
+        const res = await fetch(
+          `https://zero7-assignment-database-driven-react.onrender.com/recipes/${id}`,
+        );
         const data = await res.json();
         setRecipeDetails(data);
       } catch (error) {

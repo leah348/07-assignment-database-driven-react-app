@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 
 export default function RecipeForm() {
   const [comments, setComments] = useState([]);
-  const [selectComment, setSelectComments] = useState("");
+  // const [selectComment, setSelectComments] = useState("");
 
   console.log(comments);
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`http://localhost:8080/comments`);
+      const response = await fetch(
+        `https://zero7-assignment-database-driven-react.onrender.com/comments`,
+      );
       // const data = await response.json();
       setComments(await response.json());
     }
@@ -33,11 +35,14 @@ export default function RecipeForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/recipes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://zero7-assignment-database-driven-react.onrender.com/recipes",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        },
+      );
 
       if (response.ok) {
         alert("Recipe added successfully!");
@@ -110,7 +115,7 @@ export default function RecipeForm() {
 
         <label htmlFor="type">Comment:</label>
 
-        <select
+        {/* <select
           className="w-50 bg-white border p-1 "
           onChange={(e) => setSelectComments(e.target.value)}
         >
@@ -120,7 +125,7 @@ export default function RecipeForm() {
               {comment.type}
             </option>;
           })}
-        </select>
+        </select> */}
 
         {/* <input
           type="text"
