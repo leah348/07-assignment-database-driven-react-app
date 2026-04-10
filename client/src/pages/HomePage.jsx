@@ -28,36 +28,31 @@ export default function HomePage() {
 
         <section className="flex flex-wrap gap-10">
           <Article>
-            <p className="text-amber-300"> Healthy & Fresh</p>
-            <p className="text-2xl">
-              Celebrate the season with recipes that put plants and protein
-              center stage. Explore a vibrant variety of vegan delights,
-              gluten-free wonders, and wholesome classics. We’ve gathered the
-              best of nature’s bounty to help you fuel your body without ever
-              sacrificing taste.
-            </p>
+            <p className="text-amber-400 text-2xl"> Healthy & Fresh</p>
+            Celebrate the season with recipes that put plants and protein center
+            stage. Explore a vibrant variety of vegan delights, gluten-free
+            wonders, and wholesome classics. We’ve gathered the best of nature’s
+            bounty to help you fuel your body without ever sacrificing taste.
           </Article>
 
           <Article>
-            <p className="text-amber-300">Food for life</p>
-            <p className="text-2xl">
-              There's nothing quite like the smell of a home-cooked meal. Our
-              collection is curated for real life—messy kitchens, family
-              dinners, and 'what's in the fridge?' moments. We believe cooking
-              should be joyful, not stressful. Dive into our variety of recipes
-              designed for every skill level and every palate
-            </p>
+            <p className="text-amber-400 text-2xl">Food for life</p>
+            There's nothing quite like the smell of a home-cooked meal. Our
+            collection is curated for real life—messy kitchens, family dinners,
+            and 'what's in the fridge?' moments. We believe cooking should be
+            joyful, not stressful. Dive into our variety of recipes designed for
+            every skill level and every palate
           </Article>
           <Article>
-            <p className="text-amber-300">Delicious Home-Cooked Food</p>
-            <p className="text-2xl">
-              Home-cooked food brings comfort, warmth, and a true sense of
-              togetherness to every table. Prepared with fresh ingredients and
-              simple, time-honored recipes, each meal is made with care and
-              love. From hearty soups and slow-cooked stews to freshly baked
-              bread and classic family favorites, home cooking celebrates
-              authentic flavors and wholesome goodne
+            <p className="text-amber-400 text-2xl">
+              Delicious Home-Cooked Food
             </p>
+            Home-cooked food brings comfort, warmth, and a true sense of
+            togetherness to every table. Prepared with fresh ingredients and
+            simple, time-honored recipes, each meal is made with care and love.
+            From hearty soups and slow-cooked stews to freshly baked bread and
+            classic family favorites, home cooking celebrates authentic flavors
+            and wholesome goodne
           </Article>
         </section>
 
@@ -91,11 +86,6 @@ export default function HomePage() {
             the ultimate digital cookbook
           </p>
         </section>
-
-        <footer className="bg-gray-400">
-          <p>Discovering the nature of global flavors.</p>
-          <p>&copy; 2026 RecipeApp Project | All Rights Reserved </p>
-        </footer>
       </main>
     </div>
   );

@@ -48,7 +48,7 @@ button:focus-visible {
 html,
 body {
   background-color: rgb(176, 176, 176);
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -66,7 +66,7 @@ footer {
   /* background: #807f7f; */
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 /* html body {

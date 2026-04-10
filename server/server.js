@@ -73,21 +73,34 @@ app.get(`/comments`, async (req, res) => {
   res.status(200).json(comments);
 });
 
-app.post(`/recipes/:id/comments/:commentId`, async (req, res) => {
-  //for inserteting into our recipes comments table
-  const result = (
-    await db.query(
-      `INSERT INTO recipes_comments(recipe_id, comment_id) VALUES( $1, $2)`,
-      [req, params.commentId],
-    )
-  ).rows;
+// app.post(`/recipes/:id/comments/:commentId`, async (req, res) => {
+//   //for inserteting into our recipes comments table
+//   const result = (
+//     await db.query(
+//       `INSERT INTO recipes_comments(recipe_id, comment_id) VALUES( $1, $2)`,
+//       [req, params.commentId],
+//     )
+//   ).rows;
 
-  res.status(201).json(result);
+//   res.status(201).json(result);
+// });
+
+app.post("/recipes/:id/comments/:commentId", async (req, res) => {
+  try {
+    const { id, commentId } = req.params;
+
+    const result = await db.query(
+      `INSERT INTO recipes_comments(recipe_id, comment_id) VALUES ($1, $2) RETURNING *`,
+      [id, commentId],
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error adding comment to recipe:", error);
+    res.status(500).json({ error: "Failed to add comment" });
+  }
 });
-
-app.listen(8080, () => {
-  console.log("Server runnung on http://localhost:8080");
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log("Server runnung on ${PORT}");
 });
-
-//create and read
-//("INSERT INTO recipes (image_url, dish, type, difficulty_level) VALUES ($1, $2, $3, $4) RETURNING *");

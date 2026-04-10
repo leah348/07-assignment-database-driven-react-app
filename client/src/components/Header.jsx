@@ -4,14 +4,14 @@ export default function Header() {
   return (
     <div className="text-center">
       <h2 className="text-2xl font-mono text-white ">Recipes App</h2>
-
-      <nav className="flex flex-row   gap-16 ">
-        <Link to="/"> Home</Link>
-        <Link to="/recipes">Recipes</Link>
-        <Link to="/add">Add a new Recipe</Link>
-        <Link to="/recipes">Explore All Recipes</Link>
-        <Link to="/recipes/1">Learn More</Link>
-      </nav>
+      <div className="flex justify-center">
+        <nav className="flex flex-row   gap-16 text items-center">
+          <Link to="/"> Home</Link>
+          <Link to="/recipes">Recipes</Link>
+          <Link to="/add">Add a new Recipe</Link>
+          <Link to="/recipes/1">Learn More</Link>
+        </nav>
+      </div>
     </div>
   );
 }
