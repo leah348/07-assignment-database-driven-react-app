@@ -3,6 +3,7 @@ import RecipeCard from "../components/RecipeCard";
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -10,32 +11,40 @@ export default function Recipes() {
         const res = await fetch(
           "https://zero7-assignment-database-driven-react.onrender.com/recipes",
         );
+
+        console.log("response:", res);
+
         const data = await res.json();
+        console.log("recipes data:", data);
+
         setRecipes(data);
       } catch (error) {
         console.error("Error fetching recipes:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchData();
   }, []);
 
+  if (loading) return <p>Loading recipes...</p>;
+
   return (
     <div>
       <h2>Recipes</h2>
-
-      {/* <div className="flex flex-row flex-wrap gap-10"> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {recipes.length > 0 ? (
           recipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
-              id={recipe.id} // ✅ THIS IS CRITICAL FOR LINKING TO THE RECIPE PAGE
+              id={recipe.id}
               name={recipe.dish}
               image={recipe.image_url}
               type={recipe.type}
               difficulty_level={recipe.difficulty_level}
+              comment={recipe.comments?.[0]}
             />
           ))
         ) : (

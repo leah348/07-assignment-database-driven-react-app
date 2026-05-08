@@ -114,28 +114,15 @@ export default function RecipeForm() {
         </select>
 
         <label htmlFor="type">Comment:</label>
-
-        {/* <select
-          className="w-50 bg-white border p-1 "
-          onChange={(e) => setSelectComments(e.target.value)}
-        >
-          {" "}
-          {comments.map((comment) => {
-            <option key={comment.id} value={comment.id}>
-              {comment.type}
-            </option>;
-          })}
-        </select> */}
-
-        {/* <input
+        <input
           type="text"
-          id="type"
+          id="comments"
           name="comments"
-          value={formData.comments}
+          value={formData.comments} // Added this
           onChange={handleChange}
           required
           className="bg-white text-black border p-1"
-        /> */}
+        />
 
         <button
           type="submit"

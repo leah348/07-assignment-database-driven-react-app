@@ -16,46 +16,84 @@ const db = new pg.Pool({
 // --- READ (Get all recipes) ---
 app.get("/recipes", async (req, res) => {
   try {
-    const result = (await db.query("SELECT * FROM recipes")).rows;
-    res.status(200).json(result);
+    const result = await db.query(`
+      SELECT recipes.*,
+      COALESCE(
+        array_agg(comments.comment) FILTER (WHERE comments.comment IS NOT NULL),
+        '{}'
+      ) AS comments
+      FROM recipes
+      LEFT JOIN comments
+      ON recipes.id = comments.recipe_id
+      GROUP BY recipes.id
+      ORDER BY recipes.id;
+    `);
+
+    res.status(200).json(result.rows);
   } catch (error) {
     console.error("Error fetching recipes:", error);
     res.status(500).json({ error: "Failed to fetch recipes" });
   }
 });
-//---get a specific recipes
+
+// --- Get one recipe with comments ---
 app.get("/recipes/:id", async (req, res) => {
   try {
-    console.log(req.params.id);
-    const recipe = (
-      await db.query("SELECT * from recipes where id = $1", [req.params.id])
-    ).rows[0];
+    const result = await db.query(
+      `
+      SELECT 
+        recipes.id,
+        recipes.image_url,
+        recipes.dish,
+        recipes.type,
+        recipes.difficulty_level,
+        COALESCE(
+          ARRAY_AGG(comments.comment) FILTER (WHERE comments.comment IS NOT NULL),
+          ARRAY[]::TEXT[]
+        ) AS comments
+      FROM recipes
+      LEFT JOIN comments
+      ON recipes.id = comments.recipe_id
+      WHERE recipes.id = $1
+      GROUP BY 
+        recipes.id,
+        recipes.image_url,
+        recipes.dish,
+        recipes.type,
+        recipes.difficulty_level;
+      `,
+      [req.params.id],
+    );
 
-    if (!recipe) {
-      res.status(404).json({ error: "Recipe not found" });
-      return;
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Recipe not found" });
     }
-    res.status(200).json(recipe);
+
+    res.status(200).json(result.rows[0]);
   } catch (error) {
+    console.error("Error fetching recipe:", error);
     res.status(500).json({ error: "Failed to fetch recipe" });
   }
 });
 
-// --create/post |(add a new recipe) ---
+// --- Create recipe ---
 app.post("/recipes", async (req, res) => {
   const { image_url, dish, type, difficulty_level } = req.body;
+
   try {
     const newRecipe = await db.query(
       "INSERT INTO recipes (image_url, dish, type, difficulty_level) VALUES ($1, $2, $3, $4) RETURNING *",
       [image_url, dish, type, difficulty_level],
     );
-    res.status(201).json({ message: "Recipe added" });
+
+    res.status(201).json(newRecipe.rows[0]);
   } catch (error) {
     console.error("Error creating recipe:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
+// --- Delete recipe ---
 app.delete("/recipes/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -67,40 +105,34 @@ app.delete("/recipes/:id", async (req, res) => {
   }
 });
 
-// get commnet
-app.get(`/comments`, async (req, res) => {
-  const comments = (await db.query(`SELECT * FROM comments`)).rows;
-  res.status(200).json(comments);
-});
-
-// app.post(`/recipes/:id/comments/:commentId`, async (req, res) => {
-//   //for inserteting into our recipes comments table
-//   const result = (
-//     await db.query(
-//       `INSERT INTO recipes_comments(recipe_id, comment_id) VALUES( $1, $2)`,
-//       [req, params.commentId],
-//     )
-//   ).rows;
-
-//   res.status(201).json(result);
-// });
-
-app.post("/recipes/:id/comments/:commentId", async (req, res) => {
+// --- Get comments ---
+app.get("/comments", async (req, res) => {
   try {
-    const { id, commentId } = req.params;
-
-    const result = await db.query(
-      `INSERT INTO recipes_comments(recipe_id, comment_id) VALUES ($1, $2) RETURNING *`,
-      [id, commentId],
-    );
-
-    res.status(201).json(result.rows[0]);
+    const comments = (await db.query("SELECT * FROM comments")).rows;
+    res.status(200).json(comments);
   } catch (error) {
-    console.error("Error adding comment to recipe:", error);
-    res.status(500).json({ error: "Failed to add comment" });
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ error: "Failed to fetch comments" });
   }
 });
+
+// --- Add comment ---
+app.post("/comments", async (req, res) => {
+  const { comment, recipe_id } = req.body;
+
+  try {
+    const result = await db.query(
+      "INSERT INTO comments (comment, recipe_id) VALUES ($1, $2) RETURNING *",
+      [comment, recipe_id],
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    res.status(500).json({ error: "Failed to create comment" });
+  }
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log("Server runnung on ${PORT}");
+  console.log(`Server running on ${PORT}`);
 });
