@@ -37,45 +37,33 @@ app.get("/recipes", async (req, res) => {
 });
 
 // --- Get one recipe with comments ---
+// --- Get one recipe with comments ---
 app.get("/recipes/:id", async (req, res) => {
-  try {
-    const result = await db.query(
-      `
-      SELECT 
-        recipes.id,
-        recipes.image_url,
-        recipes.dish,
-        recipes.type,
-        recipes.difficulty_level,
-        COALESCE(
-          ARRAY_AGG(comments.comment) FILTER (WHERE comments.comment IS NOT NULL),
-          ARRAY[]::TEXT[]
-        ) AS comments
-      FROM recipes
-      LEFT JOIN comments
-      ON recipes.id = comments.recipe_id
-      WHERE recipes.id = $1
-      GROUP BY 
-        recipes.id,
-        recipes.image_url,
-        recipes.dish,
-        recipes.type,
-        recipes.difficulty_level;
-      `,
-      [req.params.id],
-    );
+  const { id } = req.params;
 
-    if (result.rows.length === 0) {
+  try {
+    const recipeResult = await db.query("SELECT * FROM recipes WHERE id = $1", [
+      id,
+    ]);
+
+    if (recipeResult.rows.length === 0) {
       return res.status(404).json({ error: "Recipe not found" });
     }
 
-    res.status(200).json(result.rows[0]);
+    const commentsResult = await db.query(
+      "SELECT comment FROM comments WHERE recipe_id = $1",
+      [id],
+    );
+
+    const recipe = recipeResult.rows[0];
+    recipe.comments = commentsResult.rows.map((row) => row.comment);
+
+    res.status(200).json(recipe);
   } catch (error) {
     console.error("Error fetching recipe:", error);
     res.status(500).json({ error: "Failed to fetch recipe" });
   }
 });
-
 // --- Create recipe ---
 app.post("/recipes", async (req, res) => {
   const { image_url, dish, type, difficulty_level } = req.body;
