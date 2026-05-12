@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 
 export default function RecipeForm() {
-  const [comments, setComments] = useState([]);
-  // const [selectComment, setSelectComments] = useState("");
-
-  console.log(comments);
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
         `https://zero7-assignment-database-driven-react.onrender.com/comments`,
       );
-      // const data = await response.json();
-      setComments(await response.json());
+      const data = await response.json();
     }
     fetchData();
   }, []);
@@ -113,7 +108,7 @@ export default function RecipeForm() {
           <option value="Hard">Hard</option>
         </select>
 
-        <label htmlFor="type">Comment:</label>
+        {/* <label htmlFor="type">Comment:</label>
         <input
           type="text"
           id="comments"
@@ -122,7 +117,7 @@ export default function RecipeForm() {
           onChange={handleChange}
           required
           className="bg-white text-black border p-1"
-        />
+        /> */}
 
         <button
           type="submit"

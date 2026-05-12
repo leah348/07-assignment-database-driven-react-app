@@ -103,7 +103,10 @@ export default function RecipePage() {
         {recipeDetails.comments && recipeDetails.comments.length > 0 ? (
           <ul className="mb-4">
             {recipeDetails.comments.map((comment, index) => (
-              <li key={index} className="bg-white p-2 rounded mb-2 shadow">
+              <li
+                key={index}
+                cclassName="bg-white p-3 rounded-xl mb-2 shadow w-fit max-w-md"
+              >
                 {comment}
               </li>
             ))}
